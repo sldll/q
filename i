@@ -1,8 +1,6 @@
 #!/bin/bash
 set -euo pipefail
 
-sleep 0.2
-
 sgdisk -Z /dev/nvme0n1
 
 sgdisk -n 1::+500M -t 1:EF00 -c 1:"EFI" /dev/nvme0n1
@@ -53,16 +51,16 @@ efibootmgr \
 arch-chroot /mnt bash <<😈
 set -euo pipefail
 
+sed -i 's/fmask=0077/noauto,fmask=0077/' /etc/fstab
+sed -i '/\bext4\b/ s/\brelatime\b/noatime/g' /etc/fstab
+
+sed -i '/Docked/c\HandleLidSwitchDocked=suspend' /etc/systemd/logind.conf
+
 sed -i 's/^#en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen
 locale-gen
 echo -e "LANG=en_US.UTF-8" > /etc/locale.conf
 
 echo "%wheel ALL=(ALL) ALL" >> /etc/sudoers
-
-sed -i 's/fmask=0077/noauto,fmask=0077/' /etc/fstab
-sed -i '/\bext4\b/ s/\brelatime\b/noatime/g' /etc/fstab
-
-sed -i '/Docked/c\HandleLidSwitchDocked=suspend' /etc/systemd/logind.conf
 
 cat << 'EOF' > /etc/systemd/zram-generator.conf
 [zram0]
@@ -82,7 +80,7 @@ echo "vm.swappiness=60" >> /etc/sysctl.d/99-swappiness.conf
 systemctl enable NetworkManager fstrim.timer
 
 echo
-echo "💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀"
+echo "💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀"
 echo
 
 😈
