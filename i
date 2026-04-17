@@ -1,0 +1,90 @@
+#!/bin/bash
+set -euo pipefail
+
+sleep 0.2
+
+sgdisk -Z /dev/nvme0n1
+
+sgdisk -n 1::+500M -t 1:EF00 -c 1:"EFI" /dev/nvme0n1
+sgdisk -n 2::+80G  -t 2:8300 -c 2:"ROOT" /dev/nvme0n1
+
+sed -i 's/#Color/Color\nILoveCandy/' /etc/pacman.conf
+
+cryptsetup luksFormat \
+	--type luks2 \
+	--cipher aes-xts-plain64 \
+	--key-size 512 \
+	--hash sha512 \
+	--pbkdf argon2id \
+	--pbkdf-memory 2097152 \
+	--pbkdf-parallel 4 \
+	--pbkdf-force-iterations 6 \
+	--batch-mode /dev/nvme0n1p2
+
+cryptsetup open /dev/nvme0n1p2 ct
+
+mkfs.fat /dev/nvme0n1p1
+mkfs.ext4 /dev/mapper/ct
+
+mount /dev/mapper/ct /mnt
+mount -o umask=0077 -m /dev/nvme0n1p1 /mnt/boot
+
+fallocate -l 8G /mnt/sf
+chmod 600 /mnt/sf
+mkswap /mnt/sf
+swapon -p 10 /mnt/sf
+
+mkdir -p /mnt/etc/mkinitcpio.conf.d/
+cat > /mnt/etc/mkinitcpio.conf.d/c.conf << '😈'
+HOOKS=(base udev autodetect microcode modconf keyboard block encrypt filesystems)
+😈
+
+pacstrap -KP /mnt base base-devel networkmanager sudo vi vim alacritty caja mako openssh inetutils git ripgrep jq bc less eza bat fzf zoxide acpi net-tools zip unzip zram-generator intel-media-driver vulkan-intel intel-gmmlib pipewire pipewire-alsa pipewire-jack pipewire-pulse brightnessctl playerctl rofi fuzzel firefox firefox-ublock-origin chromium btop mousepad man tldr imagemagick swaylock niri gammastep wl-clipboard linux linux-firmware-intel intel-ucode
+
+genfstab -U /mnt >> /mnt/etc/fstab
+
+efibootmgr \
+	--create \
+	--disk "/dev/nvme0n1" \
+	--part 1 \
+	--loader '\vmlinuz-linux' \
+	--unicode "cryptdevice=/dev/nvme0n1p2:ct root=/dev/mapper/ct rw initrd=\initramfs-linux.img"
+
+arch-chroot /mnt bash <<😈
+set -euo pipefail
+
+sed -i 's/^#en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen
+locale-gen
+echo -e "LANG=en_US.UTF-8" > /etc/locale.conf
+
+echo "%wheel ALL=(ALL) ALL" >> /etc/sudoers
+
+sed -i 's/fmask=0077/noauto,fmask=0077/' /etc/fstab
+sed -i '/\bext4\b/ s/\brelatime\b/noatime/g' /etc/fstab
+
+sed -i '/Docked/c\HandleLidSwitchDocked=suspend' /etc/systemd/logind.conf
+
+cat << 'EOF' > /etc/systemd/zram-generator.conf
+[zram0]
+zram-size = ram / 2
+compression-algorithm = lz4
+swap-priority = 100
+fs-type = swap
+EOF
+
+cat << 'EOF' > /etc/bash.bashrc
+source <(fzf --bash)
+source <(zoxide init bash)
+EOF
+
+echo "vm.swappiness=60" >> /etc/sysctl.d/99-swappiness.conf
+
+systemctl enable NetworkManager fstrim.timer
+
+echo
+echo "💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀"
+echo
+
+😈
+
+arch-chroot /mnt
