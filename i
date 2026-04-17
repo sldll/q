@@ -8,17 +8,7 @@ sgdisk -n 2::+80G  -t 2:8300 -c 2:"ROOT" /dev/nvme0n1
 
 sed -i 's/#Color/Color\nILoveCandy/' /etc/pacman.conf
 
-cryptsetup luksFormat \
-	--type luks2 \
-	--cipher aes-xts-plain64 \
-	--key-size 512 \
-	--hash sha512 \
-	--pbkdf argon2id \
-	--pbkdf-memory 2097152 \
-	--pbkdf-parallel 4 \
-	--pbkdf-force-iterations 6 \
-	--batch-mode /dev/nvme0n1p2
-
+cryptsetup luksFormat --batch-mode /dev/nvme0n1p2
 cryptsetup open /dev/nvme0n1p2 ct
 
 mkfs.fat /dev/nvme0n1p1
@@ -75,7 +65,7 @@ source <(fzf --bash)
 source <(zoxide init bash)
 EOF
 
-echo "vm.swappiness=60" >> /etc/sysctl.d/99-swappiness.conf
+echo "vm.swappiness=10" >> /etc/sysctl.d/99-swappiness.conf
 
 systemctl enable NetworkManager fstrim.timer
 
