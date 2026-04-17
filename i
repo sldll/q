@@ -52,6 +52,8 @@ echo -e "LANG=en_US.UTF-8" > /etc/locale.conf
 
 echo "%wheel ALL=(ALL) ALL" >> /etc/sudoers
 
+echo "vm.swappiness=10" >> /etc/sysctl.d/99-swappiness.conf
+
 cat << 'EOF' > /etc/systemd/zram-generator.conf
 [zram0]
 zram-size = ram / 2
@@ -64,8 +66,6 @@ cat << 'EOF' > /etc/bash.bashrc
 source <(fzf --bash)
 source <(zoxide init bash)
 EOF
-
-echo "vm.swappiness=10" >> /etc/sysctl.d/99-swappiness.conf
 
 systemctl enable NetworkManager fstrim.timer
 
