@@ -5,8 +5,9 @@ read -p "WIPE DISK?"
 
 sgdisk -Z /dev/nvme0n1
 
-sgdisk -n 1::+500M -t 1:EF00 -c 1:"EFI" /dev/nvme0n1
-sgdisk -n 2::+80G  -t 2:8300 -c 2:"ROOT" /dev/nvme0n1
+sgdisk -n ::+512M -t 1:ef00 \
+       -n ::+80G \
+       /dev/nvme0n1
 
 sed -i 's/#Color/Color\nILoveCandy/' /etc/pacman.conf
 
