@@ -1,6 +1,8 @@
 #!/bin/bash
 set -euo pipefail
 
+read -p "WIPE DISK?"
+
 sgdisk -Z /dev/nvme0n1
 
 sgdisk -n 1::+500M -t 1:EF00 -c 1:"EFI" /dev/nvme0n1
@@ -20,7 +22,7 @@ mount -o umask=0077 -m /dev/nvme0n1p1 /mnt/boot
 fallocate -l 8G /mnt/sf
 chmod 600 /mnt/sf
 mkswap /mnt/sf
-swapon -p 10 --discard /mnt/sf
+swapon -p 10 /mnt/sf
 
 mkdir -p /mnt/etc/mkinitcpio.conf.d/
 cat > /mnt/etc/mkinitcpio.conf.d/c.conf << '😈'
