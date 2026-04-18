@@ -5,7 +5,7 @@ read -p "WIPE DISK?"
 
 sgdisk -Z /dev/nvme0n1
 
-sgdisk -n 0::+512M -t 1:ef00 \
+sgdisk -n 0::+512M \
        -n 0::+80G \
        /dev/nvme0n1
 
