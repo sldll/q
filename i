@@ -54,6 +54,8 @@ echo "%wheel ALL=(ALL) ALL" >> /etc/sudoers
 
 echo "vm.swappiness=10" >> /etc/sysctl.d/99-swappiness.conf
 
+echo 'ACTION=="add|change", KERNEL=="nvme[0-9]*", ATTR{queue/nomerges}="2"' > /etc/udev/rules.d/60-nvme-nomerges.rules
+
 cat << 'EOF' > /etc/systemd/zram-generator.conf
 [zram0]
 zram-size = ram / 2
