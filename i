@@ -20,7 +20,7 @@ mount -o umask=0077 -m /dev/nvme0n1p1 /mnt/boot
 fallocate -l 8G /mnt/sf
 chmod 600 /mnt/sf
 mkswap /mnt/sf
-swapon -p 10 /mnt/sf
+swapon -p 10 --discard /mnt/sf
 
 mkdir -p /mnt/etc/mkinitcpio.conf.d/
 cat > /mnt/etc/mkinitcpio.conf.d/c.conf << '😈'
