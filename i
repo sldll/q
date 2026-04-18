@@ -5,8 +5,8 @@ read -p "WIPE DISK?"
 
 sgdisk -Z /dev/nvme0n1
 
-sgdisk -n ::+512M -t 1:ef00 \
-       -n ::+80G \
+sgdisk -n 0::+512M -t 1:ef00 \
+       -n 0::+80G \
        /dev/nvme0n1
 
 sed -i 's/#Color/Color\nILoveCandy/' /etc/pacman.conf
