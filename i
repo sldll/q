@@ -30,7 +30,7 @@ cat > /mnt/etc/mkinitcpio.conf.d/c.conf << '😈'
 HOOKS=(base udev autodetect microcode modconf keyboard block encrypt filesystems)
 😈
 
-pacstrap -KP /mnt base base-devel rustup networkmanager sudo vi vim alacritty caja mako openssh inetutils git ripgrep jq bc less eza bat fzf zoxide acpi net-tools zip unzip zram-generator intel-media-driver vulkan-intel intel-gmmlib pipewire pipewire-alsa pipewire-jack pipewire-pulse brightnessctl playerctl rofi fuzzel firefox firefox-ublock-origin chromium btop mousepad man tldr imagemagick swaylock niri gammastep wl-clipboard linux linux-firmware-intel intel-ucode
+pacstrap -KP /mnt base base-devel networkmanager sudo vi vim alacritty mako openssh inetutils git ripgrep jq bc less eza bat fzf zoxide acpi net-tools zip unzip zram-generator intel-media-driver vulkan-intel intel-gmmlib pipewire pipewire-alsa pipewire-jack pipewire-pulse brightnessctl playerctl fuzzel firefox firefox-ublock-origin btop mousepad man swaylock niri wl-clipboard linux linux-firmware-intel intel-ucode
 
 genfstab -U /mnt >> /mnt/etc/fstab
 
