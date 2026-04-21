@@ -1,7 +1,8 @@
 #!/bin/bash
 set -euo pipefail
 
-read -p "WIPE DISK?"
+read -p "WIPE DISK...?"
+read -p "THIS SCRIPT WIPES DISK..."
 
 sgdisk -Z /dev/nvme0n1
 
@@ -15,7 +16,7 @@ cryptsetup luksFormat --batch-mode /dev/nvme0n1p2
 cryptsetup open /dev/nvme0n1p2 ct
 
 mkfs.fat /dev/nvme0n1p1
-mkfs.ext4 /dev/mapper/ct
+mkfs.ext4 -f /dev/mapper/ct
 
 mount /dev/mapper/ct /mnt
 mount -o umask=0077 -m /dev/nvme0n1p1 /mnt/boot
