@@ -27,7 +27,7 @@ mkswap /mnt/sf
 swapon -p 10 /mnt/sf
 
 mkdir -p /mnt/etc/mkinitcpio.conf.d/
-cat > /mnt/etc/mkinitcpio.conf.d/c.conf << '😈'
+cat > /mnt/etc/mkinitcpio.conf.d/c.conf <<😈
 HOOKS=(base udev autodetect microcode modconf keyboard block encrypt filesystems)
 😈
 
