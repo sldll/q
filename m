@@ -4,7 +4,7 @@ read -p "THIS SCRIPT WIPES DISK..."
 sgdisk -Z /dev/nvme0n1
 sgdisk -n 0::+512M -n 0::+80G /dev/nvme0n1
 mkfs.fat /dev/nvme0n1p1
-mkfs.ext4 -f /dev/nvme0n1p2
+mkfs.ext4 /dev/nvme0n1p2
 mount /dev/nvme0n1p2 /mnt
 mount -m /dev/nvme0n1p1 /mnt/boot
 pacstrap -KP /mnt base networkmanager sudo vi vim alacritty inetutils exfatprogs ntfs-3g ripgrep jq bc less eza bat fzf zoxide acpi net-tools zip unzip brightnessctl playerctl fuzzel firefox firefox-ublock-origin btop niri wl-clipboard linux linux-firmware-intel
