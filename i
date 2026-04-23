@@ -28,7 +28,7 @@ cat > /mnt/etc/mkinitcpio.conf.d/c.conf <<😈
 HOOKS=(base udev autodetect microcode modconf keyboard block encrypt filesystems)
 😈
 
-pacstrap -KP /mnt base networkmanager sudo vi vim alacritty mako openssh inetutils git exfatprogs ripgrep jq bc less eza bat fzf zoxide acpi net-tools zip unzip zram-generator intel-media-driver vulkan-intel intel-gmmlib pipewire pipewire-alsa pipewire-jack pipewire-pulse brightnessctl playerctl fuzzel firefox firefox-ublock-origin btop mousepad man swaylock niri wl-clipboard linux-zen linux-firmware-intel intel-ucode
+pacstrap -KP /mnt base networkmanager sudo vi vim alacritty mako openssh inetutils git exfatprogs ripgrep jq bc less eza bat fzf zoxide acpi net-tools zip unzip zram-generator intel-media-driver vulkan-intel intel-gmmlib pipewire pipewire-alsa pipewire-jack pipewire-pulse brightnessctl playerctl fuzzel firefox firefox-ublock-origin btop mousepad man swaylock niri wl-clipboard linux linux-firmware-intel intel-ucode
 
 genfstab -U /mnt >> /mnt/etc/fstab
 
@@ -36,8 +36,8 @@ efibootmgr \
 	-c \
 	-d "/dev/nvme0n1" \
 	-p 1 \
-	-l '\vmlinuz-linux-zen' \
-	-u "root=/dev/nvme0n1p2 rw initrd=\initramfs-linux-zen.img"
+	-l '\vmlinuz-linux' \
+	-u "root=/dev/nvme0n1p2 rw initrd=\initramfs-linux.img"
 
 arch-chroot /mnt bash <<😈
 set -euo pipefail
