@@ -13,7 +13,7 @@ sgdisk -n 0::+512M \
 sed -i 's/#Color/Color\nILoveCandy/' /etc/pacman.conf
 
 mkfs.fat /dev/nvme0n1p1
-mkfs.ext4 -f /dev/nvme0n1p2
+mkfs.ext4 /dev/nvme0n1p2
 
 mount /dev/nvme0n1p2 /mnt
 mount -o umask=0077 -m /dev/nvme0n1p1 /mnt/boot
