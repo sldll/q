@@ -3,11 +3,22 @@ read -p "WIPE DISK...?"
 read -p "THIS SCRIPT WIPES DISK..."
 sgdisk -Z /dev/nvme0n1
 sgdisk -n 0::+512M -n 0:: /dev/nvme0n1
+sed -i 's/#Color/Color\nILoveCandy/' /etc/pacman.conf
+cryptsetup luksFormat --batch-mode /dev/nvme0n1p2
+cryptsetup open /dev/nvme0n1p2 ct
 mkfs.fat /dev/nvme0n1p1
-mkfs.ext4 /dev/nvme0n1p2
-mount /dev/nvme0n1p2 /mnt
-mount -m /dev/nvme0n1p1 /mnt/boot
-pacstrap -K /mnt base networkmanager sudo vi vim alacritty otf-font-awesome ttf-font-awesome ttf-nerd-fonts-symbols ttf-nerd-fonts-symbols-mono ttf-jetbrains-mono-nerd ttf-jetbrains-mono ttf-firacode-nerd ttf-liberation noto-fonts noto-fonts-emoji ttf-noto-nerd terminus-font mako openssh inetutils git exfatprogs ripgrep jq bc less eza bat fzf zoxide acpi net-tools zip unzip zram-generator intel-media-driver vulkan-intel intel-gmmlib pipewire pipewire-alsa pipewire-jack pipewire-pulse brightnessctl playerctl fuzzel waybar chromium firefox firefox-ublock-origin btop mousepad man swaylock niri wl-clipboard linux linux-firmware-intel intel-ucode
+mkfs.ext4 /dev/mapper/ct
+mount /dev/mapper/ct /mnt
+mount -o umask=0077 -m /dev/nvme0n1p1 /mnt/boot
+fallocate -l 8G /mnt/sf
+chmod 600 /mnt/sf
+mkswap /mnt/sf
+swapon -p 10 /mnt/sf
+mkdir -p /mnt/etc/mkinitcpio.conf.d/
+cat > /mnt/etc/mkinitcpio.conf.d/c.conf <<😈
+HOOKS=(base udev autodetect microcode modconf keyboard block encrypt filesystems)
+😈
+pacstrap -KP /mnt base networkmanager sudo vi vim alacritty otf-font-awesome ttf-font-awesome ttf-nerd-fonts-symbols ttf-nerd-fonts-symbols-mono ttf-jetbrains-mono-nerd ttf-jetbrains-mono ttf-firacode-nerd ttf-liberation noto-fonts noto-fonts-emoji ttf-noto-nerd terminus-font mako openssh inetutils git exfatprogs ripgrep jq bc less eza bat fzf zoxide acpi net-tools zip unzip zram-generator intel-media-driver vulkan-intel intel-gmmlib pipewire pipewire-alsa pipewire-jack pipewire-pulse brightnessctl playerctl fuzzel waybar chromium firefox firefox-ublock-origin btop mousepad man swaylock niri wl-clipboard linux linux-firmware-intel intel-ucode
 efibootmgr -c -d "/dev/nvme0n1" -p 1 -l "\vmlinuz-linux" -u "root=/dev/nvme0n1p2 rw initrd=\initramfs-linux.img"
 arch-chroot /mnt bash <<😈
 echo "%wheel ALL=(ALL) ALL" >> /etc/sudoers
