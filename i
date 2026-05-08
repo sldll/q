@@ -19,9 +19,19 @@ cat > /mnt/etc/mkinitcpio.conf.d/c.conf <<😈
 HOOKS=(base udev autodetect microcode modconf keyboard block encrypt filesystems)
 😈
 pacstrap -KP /mnt base networkmanager sudo vi vim alacritty otf-font-awesome ttf-font-awesome ttf-nerd-fonts-symbols ttf-nerd-fonts-symbols-mono ttf-jetbrains-mono-nerd ttf-jetbrains-mono ttf-firacode-nerd ttf-liberation noto-fonts noto-fonts-emoji ttf-noto-nerd terminus-font mako openssh inetutils git exfatprogs ripgrep jq bc less eza bat fzf zoxide acpi net-tools zip unzip zram-generator intel-media-driver vulkan-intel intel-gmmlib pipewire pipewire-alsa pipewire-jack pipewire-pulse brightnessctl playerctl fuzzel waybar chromium firefox firefox-ublock-origin btop mousepad man swaylock niri wl-clipboard linux linux-firmware-intel intel-ucode
-efibootmgr -c -d "/dev/nvme0n1" -p 1 -l "\vmlinuz-linux" -u "root=/dev/nvme0n1p2 rw initrd=\initramfs-linux.img"
+efibootmgr -c -d "/dev/nvme0n1" -p 1 -l "\vmlinuz-linux" -u "cryptdevice=/dev/nvme0n1p2:ct root=/dev/mapper/ct rw initrd=\initramfs-linux.img"
 arch-chroot /mnt bash <<😈
+sed -i 's/fmask=0077/noauto,fmask=0077/' /etc/fstab
+sed -i '/\bext4\b/ s/\brelatime\b/noatime/g' /etc/fstab
 echo "%wheel ALL=(ALL) ALL" >> /etc/sudoers
+echo "vm.swappiness=10" >> /etc/sysctl.d/99-swappiness.conf
+cat << 'EOF' > /etc/systemd/zram-generator.conf
+[zram0]
+zram-size = ram / 2
+compression-algorithm = lz4
+swap-priority = 100
+fs-type = swap
+EOF
 cat <<EOF > /etc/bash.bashrc
 source <(fzf --bash)
 source <(zoxide init bash)
