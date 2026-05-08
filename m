@@ -7,8 +7,7 @@ mkfs.fat /dev/nvme0n1p1
 mkfs.ext4 /dev/nvme0n1p2
 mount /dev/nvme0n1p2 /mnt
 mount -m /dev/nvme0n1p1 /mnt/boot
-pacstrap -K /mnt base networkmanager sudo vi vim alacritty inetutils exfatprogs ntfs-3g ripgrep jq bc less eza bat fzf zoxide acpi net-tools zip unzip brightnessctl playerctl fuzzel firefox firefox-ublock-origin btop niri wl-clipboard linux linux-firmware-intel
-e
+pacstrap -K /mnt base networkmanager sudo vi vim alacritty mako openssh inetutils git exfatprogs ripgrep jq bc less eza bat fzf zoxide acpi net-tools zip unzip zram-generator intel-media-driver vulkan-intel intel-gmmlib pipewire pipewire-alsa pipewire-jack pipewire-pulse brightnessctl playerctl fuzzel firefox firefox-ublock-origin btop mousepad man swaylock niri wl-clipboard linux linux-firmware-intel intel-ucode
 efibootmgr -c -d "/dev/nvme0n1" -p 1 -l "\vmlinuz-linux" -u "root=/dev/nvme0n1p2 rw initrd=\initramfs-linux.img"
 arch-chroot /mnt bash <<😈
 echo "%wheel ALL=(ALL) ALL" >> /etc/sudoers
