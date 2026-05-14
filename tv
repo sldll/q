@@ -6,7 +6,7 @@ sgdisk -n 0::+512M -n 0:: /dev/sda
 sed -i 's/#Color/Color\nILoveCandy/' /etc/pacman.conf
 cryptsetup luksFormat --batch-mode /dev/sda2
 cryptsetup open /dev/sda2 ct
-mkfs.fat /dev/sda
+mkfs.fat /dev/sda1
 mkfs.ext4 /dev/mapper/ct
 mount /dev/mapper/ct /mnt
 mount -o umask=0077 -m /dev/sda1 /mnt/boot
