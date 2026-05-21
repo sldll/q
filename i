@@ -50,6 +50,8 @@ read -p "THIS SCRIPT WIPES DISK..."
 
 #sed -i 's/^HOOKS=.*/HOOKS=(base udev autodetect microcode modconf keyboard block encrypt filesystems)/' /etc/mkinitcpio.conf
 
+#--unicode 'root=/dev/nvme0n1p2 rw initrd=\initramfs-linux.img'
+
 #CHROOT-END
 
 sgdisk -Z /dev/nvme0n1
@@ -87,6 +89,7 @@ cryptsetup open /dev/nvme0n1p2 ct
 
 #mkfs.fat /dev/sda1
 mkfs.fat /dev/nvme0n1p1
+#mkfs.ext4 /dev/nvme0n1p2
 mkfs.ext4 /dev/mapper/ct
 
 mount /dev/mapper/ct /mnt
