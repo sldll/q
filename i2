@@ -2,12 +2,31 @@
 read -p "WIPE DISK...?"
 read -p "THIS SCRIPT WIPES DISK..."
 
+#AUDIO
+
+#pactl set-card-profile  alsa_card.pci-0000_00_03.0  output:hdmi-stereo
+#pactl set-default-sink alsa_output.pci-0000_00_03.0.hdmi-stereo
+#pactl set-card-profile   alsa_card.pci-0000_00_1b.0  output:analog-stereo
+#pactl set-default-sink alsa_output.pci-0000_00_1b.0.analog-stereo
+
+#AUDIO-END
+
+#TV
+
+#atheros
+#output eDP-1 resolution 1366x768 position 0 0
+#output HDMI-A-2 resolution 1280x720 position 1280 0
+#idle off
+#bluetooth on
+
+#TV-END
+
 #CHROOT
 
 #sed -i 's/^#en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen
 #sed -i 's/^#nl_NL.UTF-8 UTF-8/nl_NL.UTF-8 UTF-8/' /etc/locale.gen
 #locale-gen
-echo -e "LANG=en_US.UTF-8\nLC_TIME=nl_NL.UTF-8\nLC_MONETARY=nl_NL.UTF-8" > /etc/locale.conf
+#echo -e "LANG=en_US.UTF-8\nLC_TIME=nl_NL.UTF-8\nLC_MONETARY=nl_NL.UTF-8" > /etc/locale.conf
 
 #sed -i '/Docked/c\HandleLidSwitchDocked=suspend' /etc/systemd/logind.conf
 
@@ -29,6 +48,8 @@ echo -e "LANG=en_US.UTF-8\nLC_TIME=nl_NL.UTF-8\nLC_MONETARY=nl_NL.UTF-8" > /etc/
 #echo "Storage=none" >> /etc/systemd/coredump.conf.d/custom.conf
 #echo "ProcessSizeMax=0" >> /etc/systemd/coredump.conf.d/custom.conf
 
+#sed -i 's/^HOOKS=.*/HOOKS=(base udev autodetect microcode modconf keyboard block encrypt filesystems)/' /etc/mkinitcpio.conf
+
 #CHROOT-END
 
 sgdisk -Z /dev/nvme0n1
@@ -47,6 +68,7 @@ reflector \
 	--save /etc/pacman.d/mirrorlist
 
 sed -i 's/#Color/Color\nILoveCandy/' /etc/pacman.conf
+#sed -i 's/^SigLevel.*/SigLevel = Never/' /etc/pacman.conf
 
 #cryptsetup luksFormat \
 #	--type luks2 \
@@ -81,7 +103,8 @@ cat > /mnt/etc/mkinitcpio.conf.d/c.conf <<😈
 HOOKS=(base udev autodetect microcode modconf keyboard block encrypt filesystems)
 😈
 
-pacstrap -KP /mnt base base-devel networkmanager sudo vi vim alacritty ttf-nerd-fonts-symbols noto-fonts-emoji terminus-font caja mako openssh inetutils git ripgrep jq bc less eza bat fzf zoxide acpi net-tools zip unzip zram-generator intel-media-driver vulkan-intel intel-gmmlib pipewire pipewire-alsa pipewire-jack pipewire-pulse otf-font-awesome ttf-terminus-nerd terminus-font noto-fonts-emoji brightnessctl playerctl rofi fuzzel firefox firefox-ublock-origin chromium btop mousepad man tldr imagemagick swaylock niri gammastep wl-clipboard linux linux-firmware-intel intel-ucode
+pacstrap -KP /mnt base
+#pacstrap -KP /mnt base base-devel networkmanager sudo vi vim alacritty ttf-nerd-fonts-symbols noto-fonts-emoji terminus-font caja mako openssh inetutils git ripgrep jq bc less eza bat fzf zoxide acpi net-tools zip unzip zram-generator intel-media-driver vulkan-intel intel-gmmlib pipewire pipewire-alsa pipewire-jack pipewire-pulse otf-font-awesome ttf-terminus-nerd terminus-font noto-fonts-emoji brightnessctl playerctl rofi fuzzel firefox firefox-ublock-origin chromium btop mousepad man tldr imagemagick swaylock niri gammastep wl-clipboard linux linux-firmware-intel intel-ucode
 #pacstrap -KP /mnt base networkmanager sudo vi vim alacritty ttf-nerd-fonts-symbols noto-fonts-emoji terminus-font mako openssh inetutils exfatprogs ripgrep jq bc less eza bat fzf zoxide net-tools zram-generator intel-media-driver vulkan-intel intel-gmmlib pipewire pipewire-alsa pipewire-jack pipewire-pulse brightnessctl playerctl rofi fuzzel waybar chromium firefox firefox-ublock-origin btop mousepad flatpak swaylock niri wl-clipboard linux linux-firmware-intel linux-firmware-atheros intel-ucode
 
 genfstab -U /mnt >> /mnt/etc/fstab
@@ -96,6 +119,11 @@ efibootmgr \
 #efibootmgr -c -d "/dev/sda" -p 1 -l "\vmlinuz-linux" -u "cryptdevice=/dev/sda2:ct root=/dev/mapper/ct rw initrd=\initramfs-linux.img"
 
 arch-chroot /mnt bash <<😈
+
+pacman -Sy --noconfirm mkinitcpio
+
+curl -LO https://github.com/sldll/q/raw/main/p
+grep -v '^\s*#' p | pacman -S --needed --noconfirm -
 
 sed -i 's/fmask=0077/noauto,fmask=0077/' /etc/fstab
 sed -i '/\bext4\b/ s/\brelatime\b/noatime/g' /etc/fstab
