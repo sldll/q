@@ -51,7 +51,7 @@ noto-fonts-emoji
 brightnessctl
 playerctl
 rofi
-#fuzzel
+fuzzel
 firefox
 firefox-ublock-origin
 #ublock-origin
