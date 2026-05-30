@@ -20,6 +20,7 @@ inetutils
 #github-cli
 #glab
 #stow
+pavucontrol
 ripgrep
 jq
 bc
