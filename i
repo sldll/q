@@ -1,4 +1,7 @@
 #!/bin/bash
+
+sleep 0.2
+
 read -p "WIPE DISK...?"
 read -p "THIS SCRIPT WIPES DISK..."
 
