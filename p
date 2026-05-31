@@ -52,6 +52,7 @@ brightnessctl
 playerctl
 rofi
 fuzzel
+flatpak
 firefox
 firefox-ublock-origin
 #ublock-origin
