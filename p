@@ -69,4 +69,5 @@ gammastep
 wl-clipboard
 linux
 linux-firmware-intel
+linux-firmware-atheros
 intel-ucode
