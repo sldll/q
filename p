@@ -63,7 +63,7 @@ mousepad
 #tldr
 #imagemagick
 swaylock
-#swayidle
+swayidle
 niri
 waybar
 gammastep
