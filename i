@@ -57,12 +57,15 @@ read -p "THIS SCRIPT WIPES DISK..."
 
 #CHROOT-END
 
-#sgdisk -Z /dev/nvme0n1
+
+
+
+#LAP#sgdisk -Z /dev/nvme0n1
 #sgdisk -Z /dev/sda
 
-#sgdisk -n 1::+500M -t 1:EF00 -c 1:"EFI" /dev/nvme0n1
+#LAP#sgdisk -n 1::+500M -t 1:EF00 -c 1:"EFI" /dev/nvme0n1
 #sgdisk -n 2::+80G  -t 2:8300 -c 2:"ROOT" /dev/nvme0n1
-#sgdisk -n 0::+512M -n 0:: /dev/nvme0n1
+#LAP#sgdisk -n 0::+512M -n 0:: /dev/nvme0n1
 #sgdisk -n 0::+512M -n 0:: /dev/sda
 
 reflector \
@@ -85,18 +88,18 @@ sed -i 's/#Color/Color\nILoveCandy/' /etc/pacman.conf
 #	--pbkdf-parallel 4 \
 #	--pbkdf-force-iterations 6 \
 #	--batch-mode /dev/nvme0n1p2
-#cryptsetup luksFormat --batch-mode /dev/nvme0n1p2
+#LAP#cryptsetup luksFormat --batch-mode /dev/nvme0n1p2
 #cryptsetup luksFormat --batch-mode /dev/sda2
 #cryptsetup open /dev/sda2 ct
-#cryptsetup open /dev/nvme0n1p2 ct
+#LAP#cryptsetup open /dev/nvme0n1p2 ct
 
 #mkfs.fat /dev/sda1
-#mkfs.fat /dev/nvme0n1p1
+#LAP#mkfs.fat /dev/nvme0n1p1
 #mkfs.ext4 /dev/nvme0n1p2
-#mkfs.ext4 /dev/mapper/ct
+#LAP#mkfs.ext4 /dev/mapper/ct
 
 mount /dev/mapper/ct /mnt
-#mount -o umask=0077 -m /dev/nvme0n1p1 /mnt/boot
+#LAP#mount -o umask=0077 -m /dev/nvme0n1p1 /mnt/boot
 #mount -o umask=0077 -m /dev/sda1 /mnt/boot
 
 fallocate -l 8G /mnt/sf
@@ -121,7 +124,7 @@ genfstab -U /mnt >> /mnt/etc/fstab
 #	--part 1 \
 #	--loader '\vmlinuz-linux' \
 #	--unicode "cryptdevice=/dev/nvme0n1p2:ct root=/dev/mapper/ct rw initrd=\initramfs-linux.img"
-#efibootmgr -c -d "/dev/nvme0n1" -p 1 -l "\vmlinuz-linux" -u "cryptdevice=/dev/nvme0n1p2:ct root=/dev/mapper/ct rw initrd=\initramfs-linux.img"
+#LAP#efibootmgr -c -d "/dev/nvme0n1" -p 1 -l "\vmlinuz-linux" -u "cryptdevice=/dev/nvme0n1p2:ct root=/dev/mapper/ct rw initrd=\initramfs-linux.img"
 #efibootmgr -c -d "/dev/sda" -p 1 -l "\vmlinuz-linux" -u "cryptdevice=/dev/sda2:ct root=/dev/mapper/ct rw initrd=\initramfs-linux.img"
 
 arch-chroot /mnt bash <<😈
