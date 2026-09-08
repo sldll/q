@@ -1,5 +1,5 @@
 base
-#base-devel
+base-devel
 #pacman-contrib
 networkmanager
 #rsync
@@ -13,10 +13,10 @@ caja
 mako
 openssh
 #sshfs
-#bluez
-#bluez-utils
+bluez
+bluez-utils
 inetutils
-#git
+git
 #github-cli
 #glab
 #stow
