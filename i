@@ -64,8 +64,8 @@ read -p "THIS SCRIPT WIPES DISK..."
 #sgdisk -Z /dev/sda
 
 #LAP#sgdisk -n 1::+500M -t 1:EF00 -c 1:"EFI" /dev/nvme0n1
-#sgdisk -n 2::+80G  -t 2:8300 -c 2:"ROOT" /dev/nvme0n1
-#LAP#sgdisk -n 0::+512M -n 0:: /dev/nvme0n1
+#LAP#sgdisk -n 2::+80G  -t 2:8300 -c 2:"ROOT" /dev/nvme0n1
+#sgdisk -n 0::+512M -n 0:: /dev/nvme0n1
 #sgdisk -n 0::+512M -n 0:: /dev/sda
 
 reflector \
