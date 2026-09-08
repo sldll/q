@@ -7,6 +7,9 @@ read -p "THIS SCRIPT WIPES DISK..."
 
 #AUDIO
 
+pactl set-default-sink alsa_output.pci-0000_00_1f.3.analog-stereo
+pactl set-default-sink alsa_output.usb-Samsung_Samsung_USB_C_Earphones_20160406.1-00.analog-stereo
+
 #pactl set-card-profile  alsa_card.pci-0000_00_03.0  output:hdmi-stereo
 #pactl set-default-sink alsa_output.pci-0000_00_03.0.hdmi-stereo
 #pactl set-card-profile   alsa_card.pci-0000_00_1b.0  output:analog-stereo
