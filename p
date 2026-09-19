@@ -49,6 +49,7 @@ ttf-terminus-nerd
 terminus-font
 noto-fonts-emoji
 brightnessctl
+openrgb
 playerctl
 rofi
 fuzzel
