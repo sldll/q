@@ -34,6 +34,7 @@ zoxide
 #net-tools
 #ncdu
 #fd
+nemo-fileroller
 #zip
 #unzip
 zram-generator
