@@ -34,6 +34,8 @@ read -p "THIS SCRIPT WIPES DISK..."
 
 #/etc/xdg/fuzzel/fuzzel.ini > "dpi-aware=no"
 
+#niri msg output HDMI-A-2 mode 1280x720
+
 #TV-END
 
 #CHROOT
