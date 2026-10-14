@@ -32,6 +32,8 @@ read -p "THIS SCRIPT WIPES DISK..."
 #gsettings set org.gnome.desktop.interface color-scheme 'prefer-dark'
 #sudo dd if=Downloads/ of=/dev/sd bs=16M status=progress oflag=sync
 
+#/etc/xdg/fuzzel/fuzzel.ini > "dpi-aware=no"
+
 #TV-END
 
 #CHROOT
