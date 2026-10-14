@@ -25,6 +25,13 @@ read -p "THIS SCRIPT WIPES DISK..."
 #idle off
 #bluetooth on
 
+#Mod+E " { spawn-sh "systemctl suspend" } "
+#spawn-sh-at-startup "gammastep -P -O 5000"
+#spawn-at-startup "swayidle" "-w" "timeout" "600" "swaylock -f" "before-sleep" "swaylock -f" "timeout" "3600" "systemctl suspend"
+
+#gsettings set org.gnome.desktop.interface color-scheme 'prefer-dark'
+#sudo dd if=Downloads/ of=/dev/sd bs=16M status=progress oflag=sync
+
 #TV-END
 
 #CHROOT
