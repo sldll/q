@@ -5,6 +5,9 @@ sleep 0.2
 read -p "WIPE DISK...?"
 read -p "THIS SCRIPT WIPES DISK..."
 
+#sed  's/#TVV#//g' i
+#sed  's/#LAPP#//g' i
+
 #sudo dd if=Downloads/ of=/dev/sd bs=16M status=progress oflag=sync
 
 #sudo cryptsetup luksHeaderBackup /dev/X --header-backup-file luks-header-img
