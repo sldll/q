@@ -5,8 +5,6 @@ sleep 0.2
 read -p "WIPE DISK...?"
 read -p "THIS SCRIPT WIPES DISK..."
 
-#LAP
-
 #sudo dd if=Downloads/ of=/dev/sd bs=16M status=progress oflag=sync
 
 #sudo cryptsetup luksHeaderBackup /dev/X --header-backup-file luks-header-img
@@ -20,6 +18,7 @@ read -p "THIS SCRIPT WIPES DISK..."
 #pactl set-card-profile   alsa_card.pci-0000_00_1b.0  output:analog-stereo
 #pactl set-default-sink alsa_output.pci-0000_00_1b.0.analog-stereo
 
+#LAP
 
 #spawn-at-startup "swayidle" "-w" "timeout" "600" "swaylock -f" "before-sleep" "swaylock -f" "timeout" "3600" "systemctl suspend"
 #spawn-sh-at-startup "gammastep -P -O 5000"
