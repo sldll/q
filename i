@@ -5,7 +5,12 @@ sleep 0.2
 read -p "WIPE DISK...?"
 read -p "THIS SCRIPT WIPES DISK..."
 
-#AUDIO
+#LAP
+
+#sudo dd if=Downloads/ of=/dev/sd bs=16M status=progress oflag=sync
+
+#sudo cryptsetup luksHeaderBackup /dev/X --header-backup-file luks-header-img
+#sudo gpg -c luks-header-img
 
 #pactl set-default-sink alsa_output.pci-0000_00_1f.3.analog-stereo
 #pactl set-default-sink alsa_output.usb-Samsung_Samsung_USB_C_Earphones_20160406.1-00.analog-stereo
@@ -15,37 +20,31 @@ read -p "THIS SCRIPT WIPES DISK..."
 #pactl set-card-profile   alsa_card.pci-0000_00_1b.0  output:analog-stereo
 #pactl set-default-sink alsa_output.pci-0000_00_1b.0.analog-stereo
 
-#AUDIO-END
 
-#TV
-
-#atheros
-#output eDP-1 resolution 1366x768 position 0 0
-#output HDMI-A-2 resolution 1280x720 position 1280 0
-#idle off
-#bluetooth on
-
-#Mod+E { spawn-sh "systemctl suspend" }
-#spawn-sh-at-startup "gammastep -P -O 5000"
 #spawn-at-startup "swayidle" "-w" "timeout" "600" "swaylock -f" "before-sleep" "swaylock -f" "timeout" "3600" "systemctl suspend"
-
-#gsettings set org.gnome.desktop.interface color-scheme 'prefer-dark'
-#sudo dd if=Downloads/ of=/dev/sd bs=16M status=progress oflag=sync
-
+#spawn-sh-at-startup "gammastep -P -O 5000"
+#Mod+B { spawn "sh" "-c" "pkill -SIGUSR1 waybar"; }
+#Mod+F { spawn-sh "gsettings set org.gnome.desktop.interface color-scheme 'prefer-dark'"; }
+#darkmode > nwg-look
 #/etc/xdg/waybar/config.jsonc
 #"temperature": {
 #        "hwmon-path-abs": "/sys/devices/platform/coretemp.0/hwmon",
 #        "input-filename": "temp1_input",
 #        "critical-threshold": 80,
 
-#/etc/xdg/fuzzel/fuzzel.ini > "dpi-aware=no"
+#TV
 
-#sudo cryptsetup luksHeaderBackup /dev/X --header-backup-file luks-header-img
-#sudo gpg -c luks-header-img
-
+#atheros
+#output eDP-1 resolution 1366x768 position 0 0
+#output HDMI-A-2 resolution 1280x720 position 1280 0
 #niri msg output HDMI-A-2 mode 1280x720
+#idle off
+#bluetooth on
 
-#TV-END
+#Mod+E { spawn-sh "systemctl suspend" }
+#spawn-at-startup "swayidle" "-w" "before-sleep" "swaylock -f"
+
+#/etc/xdg/fuzzel/fuzzel.ini > "dpi-aware=no"
 
 #CHROOT
 
@@ -78,17 +77,14 @@ read -p "THIS SCRIPT WIPES DISK..."
 
 #--unicode 'root=/dev/nvme0n1p2 rw initrd=\initramfs-linux.img'
 
-#CHROOT-END
+#INSTALL
 
-
-
-
-#LAP#sgdisk -Z /dev/nvme0n1
+#LAPP#sgdisk -Z /dev/nvme0n1
 #TVV#sgdisk -Z /dev/sda
 
-#LAP#sgdisk -n 1::+500M -t 1:EF00 -c 1:"EFI" /dev/nvme0n1
-#LAP#sgdisk -n 2::+80G  -t 2:8300 -c 2:"ROOT" /dev/nvme0n1
-#LAP#sgdisk -n 0::+512M -n 0:: /dev/nvme0n1
+#LAP2#sgdisk -n 1::+500M -t 1:EF00 -c 1:"EFI" /dev/nvme0n1
+#LAP2#sgdisk -n 2::+80G  -t 2:8300 -c 2:"ROOT" /dev/nvme0n1
+#LAPP#sgdisk -n 0::+512M -n 0:: /dev/nvme0n1
 #TVV#sgdisk -n 0::+512M -n 0:: /dev/sda
 
 reflector \
@@ -111,19 +107,19 @@ sed -i 's/#Color/Color\nILoveCandy/' /etc/pacman.conf
 #	--pbkdf-parallel 4 \
 #	--pbkdf-force-iterations 6 \
 #	--batch-mode /dev/nvme0n1p2
-#LAP#cryptsetup luksFormat --batch-mode /dev/nvme0n1p2
+#LAPP#cryptsetup luksFormat --batch-mode /dev/nvme0n1p2
 #TVV#cryptsetup luksFormat --batch-mode /dev/sda2
 #TVV#cryptsetup open /dev/sda2 ct
-#LAP#cryptsetup open /dev/nvme0n1p2 ct
+#LAPP#cryptsetup open /dev/nvme0n1p2 ct
 
 #TVV#mkfs.fat /dev/sda1
-#LAP#mkfs.fat /dev/nvme0n1p1
+#LAPP#mkfs.fat /dev/nvme0n1p1
 #mkfs.ext4 /dev/nvme0n1p2
-#LAP#mkfs.ext4 /dev/mapper/ct
+#LAPP#mkfs.ext4 /dev/mapper/ct
 #TVV#mkfs.ext4 /dev/mapper/ct
 
 mount /dev/mapper/ct /mnt
-#LAP#mount -o umask=0077 -m /dev/nvme0n1p1 /mnt/boot
+#LAPP#mount -o umask=0077 -m /dev/nvme0n1p1 /mnt/boot
 #TVV#mount -o umask=0077 -m /dev/sda1 /mnt/boot
 
 fallocate -l 8G /mnt/sf
@@ -148,7 +144,7 @@ genfstab -U /mnt >> /mnt/etc/fstab
 #	--part 1 \
 #	--loader '\vmlinuz-linux' \
 #	--unicode "cryptdevice=/dev/nvme0n1p2:ct root=/dev/mapper/ct rw initrd=\initramfs-linux.img"
-#LAP#efibootmgr -c -d "/dev/nvme0n1" -p 1 -l "\vmlinuz-linux" -u "cryptdevice=/dev/nvme0n1p2:ct root=/dev/mapper/ct rw initrd=\initramfs-linux.img"
+#LAPP#efibootmgr -c -d "/dev/nvme0n1" -p 1 -l "\vmlinuz-linux" -u "cryptdevice=/dev/nvme0n1p2:ct root=/dev/mapper/ct rw initrd=\initramfs-linux.img"
 #TVV#efibootmgr -c -d "/dev/sda" -p 1 -l "\vmlinuz-linux" -u "cryptdevice=/dev/sda2:ct root=/dev/mapper/ct rw initrd=\initramfs-linux.img"
 
 arch-chroot /mnt bash <<😈
