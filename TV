@@ -1,3 +1,3 @@
 curl -LO https://github.com/sldll/q/raw/main/i
-sed  's/#TVV#//g' i
+sed  -i 's/#TVV#//g' i
 bash i
