@@ -150,6 +150,7 @@ arch-chroot /mnt bash <<😈
 
 pacman -Sy --noconfirm mkinitcpio
 
+curl -LO https://github.com/sldll/q/raw/main/i
 curl -LO https://github.com/sldll/q/raw/main/p
 grep -v '^\s*#' p | pacman -S --needed --noconfirm -
 
