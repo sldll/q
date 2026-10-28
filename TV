@@ -1,1 +1,2 @@
-#sed  's/#TVV#//g' i
+curl -LO https://github.com/sldll/q/raw/main/i
+sed  's/#TVV#//g' i
