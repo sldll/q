@@ -58,7 +58,7 @@ read -p "THIS SCRIPT WIPES DISK..."
 #Mod+E { spawn-sh "systemctl suspend"; }
 #spawn-at-startup "swayidle" "-w" "before-sleep" "swaylock -f"
 
-#echo "dpi-aware=no" >> /etc/xdg/fuzzel/fuzzel.ini
+#sudo sed -i '/aware/c dpi-aware=no' /etc/xdg/fuzzel/fuzzel.ini
 
 #CHROOT
 
