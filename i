@@ -33,8 +33,20 @@ read -p "THIS SCRIPT WIPES DISK..."
 #        "hwmon-path-abs": "/sys/devices/platform/coretemp.0/hwmon",
 #        "input-filename": "temp1_input",
 #        "critical-threshold": 80
+#systemctl enable --now bluetooth
+#bluetoothctl
 
 #TV
+
+#output "eDP-1" {
+#mode "1366x768@60"
+#position x=0 y=0
+#}
+#position x=0 y=0
+#output "HDMI-A-2" {
+#mode "1280x720"
+#position x=1280 y=0
+#}
 
 #atheros
 #output eDP-1 resolution 1366x768 position 0 0
@@ -43,10 +55,10 @@ read -p "THIS SCRIPT WIPES DISK..."
 #idle off
 #bluetooth on
 
-#Mod+E { spawn-sh "systemctl suspend" }
+#Mod+E { spawn-sh "systemctl suspend"; }
 #spawn-at-startup "swayidle" "-w" "before-sleep" "swaylock -f"
 
-#/etc/xdg/fuzzel/fuzzel.ini > "dpi-aware=no"
+#echo "dpi-aware=no" >> /etc/xdg/fuzzel/fuzzel.ini
 
 #CHROOT
 
